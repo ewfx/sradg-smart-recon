@@ -1,0 +1,17 @@
+key_columns: ["Company", "Account", "AU", "Currency"]
+criteria_columns: ["GL Balance", "iHub Balance"]
+anomaly_buckets:
+  1: "Inconsistent variations in outstanding balances"
+  2: "Consistent increase or decrease in outstanding balances"
+  3: "Huge spike in outstanding balances"
+  4: "Outstanding balances are not in line with previous months"
+  5: "Gradual deviation beyond threshold over multiple periods"
+  6: "Sudden drop in outstanding balances"
+  7: "High volatility in account balances over time"
+  8: "Reversal or correction entry detected"
+  9: "New account or currency not seen in historical data"  # ADD THIS LINE
+  10: "Large single-month fluctuation with no prior history"
+  11: "No clear pattern, but deviation exceeds threshold"
+thresholds:
+  balance_deviation: 0.2
+  temporal_consistency: 3
