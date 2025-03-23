@@ -93,7 +93,7 @@ async def get_insights():
         insights_data = generate_insights()
         return JSONResponse(content={
             "message": "AI Insights generated successfully.",
-            "insights": insights_data
+            "insights_data": insights_data
         })
     except Exception as e:
         import traceback
