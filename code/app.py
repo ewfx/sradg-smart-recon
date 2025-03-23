@@ -6,10 +6,21 @@ from fastapi.responses import JSONResponse
 from src.data_loader import get_historical_data, get_realtime_data
 from src.anomaly_detection import train_entity_models, predict_anomaly
 from src.mapping import map_anomaly_to_bucket
-from src.insights import generate_insights
-from src.config import DATA_DIR, HISTORICAL_DATA_PATH, CURRENT_DATA_PATH
+from src.insights_openai import generate_insights
+from src.config import DATA_DIR, set_historical_path, set_realtime_path
+from fastapi.middleware.cors import CORSMiddleware
+from src.predict_anomaly import run_anomaly_prediction_pipeline
+import traceback
 
 app = FastAPI(title="Reconciliation Data API with Insights")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # You can restrict this to specific domains later
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Ensure the data directory exists
 os.makedirs(DATA_DIR, exist_ok=True)
@@ -19,9 +30,12 @@ async def upload_historical(file: UploadFile = File(...)):
     if not file.filename.endswith('.csv'):
         raise HTTPException(status_code=400, detail="Only CSV files are accepted.")
     
-    file_path = HISTORICAL_DATA_PATH
+    file_path = os.path.join(DATA_DIR, file.filename)
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
+        
+     # ✅ Update config path dynamically
+    set_historical_path(file.filename)
     
     try:
         historical_df = get_historical_data(file_path)
@@ -34,10 +48,12 @@ async def upload_realtime(file: UploadFile = File(...)):
     if not file.filename.endswith('.csv'):
         raise HTTPException(status_code=400, detail="Only CSV files are accepted.")
     
-    file_path = CURRENT_DATA_PATH
+    file_path = os.path.join(DATA_DIR, file.filename)
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
-    
+        
+     # ✅ Update config path dynamically
+    set_realtime_path(file.filename)
     try:
         historical_df = get_historical_data()  # uses default config path
         realtime_df = get_realtime_data(historical_df, file_path)
@@ -45,65 +61,47 @@ async def upload_realtime(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+from fastapi.responses import FileResponse
+
 @app.get("/test")
 async def test_pipeline():
     try:
         historical_df = get_historical_data()
         realtime_df = get_realtime_data(historical_df)
         entity_models = train_entity_models(historical_df)
-        realtime_predictions = []
-        for _, row in realtime_df.iterrows():
-            new_entry = {
-                'Company': row['Company'],
-                'Account': row['Account'],
-                'AU': row['AU'],
-                'Primary Account': row['Primary Account'],
-                'Secondary Account': row['Secondary Account'],
-                'GL Balance': row['GL Balance'],
-                'iHub Balance': row['iHub Balance']
-            }
-            label, score = predict_anomaly(new_entry, entity_models)
-            prediction = {
-                'Company': row['Company'],
-                'Account': row['Account'],
-                'AU': row['AU'],
-                'Primary Account': row['Primary Account'],
-                'Secondary Account': row['Secondary Account'],
-                'GL Balance': row['GL Balance'],
-                'iHub Balance': row['iHub Balance'],
-                'predicted_label': label,
-                'anomaly_score': score
-            }
-            if label == "Anomaly":
-                prediction["Balance Difference"] = row['GL Balance'] - row['iHub Balance']
-                prediction["anomaly_bucket"] = map_anomaly_to_bucket(prediction)
-            else:
-                prediction["anomaly_bucket"] = None
-            realtime_predictions.append(prediction)
-        
-        pred_df = pd.DataFrame(realtime_predictions)
-        anomalies_df = pred_df[pred_df['predicted_label'] == "Anomaly"].copy()
-        anomalies_df['Bucket Description'] = anomalies_df['anomaly_bucket'].apply(
-            lambda x: str(x)  # You can also use your ANOMALY_BUCKETS mapping here if desired
-        )
-        
-        # Generate insights using GPT-4
-        insights_text = generate_insights(anomalies_df)
-        
-        # Optionally, export anomalies and insights to files
-        anomalies_output_file = os.path.join(DATA_DIR, "anomalies_output.csv")
-        insights_output_file = os.path.join(DATA_DIR, "insights_output.txt")
-        anomalies_df.to_csv(anomalies_output_file, index=False)
-        with open(insights_output_file, "w") as f:
-            f.write(insights_text)
-        
+
+        export_df, full_output_path = run_anomaly_prediction_pipeline(realtime_df, entity_models)
+
+        # Convert to JSON for UI
+        output_json = export_df.to_dict(orient="records")
+
         return JSONResponse(content={
-            "message": "Test pipeline executed successfully.",
-            "anomaly_count": len(anomalies_df),
-            "sample_insights": insights_text[:500]  # return first 500 characters of insights
+            "message": "Anomalies detected successfully.",
+            "anomaly_count": len(output_json),
+            "data": output_json  # 👈 Cleaned output for UI
+        })
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+    
+@app.get("/insights")
+async def get_insights():
+    try:
+        insights_data = generate_insights()
+        return JSONResponse(content={
+            "message": "AI Insights generated successfully.",
+            "insights": insights_data
         })
     except Exception as e:
+        import traceback
+        print("❌ Exception in /insights:")
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
+
+
 
 @app.get("/")
 async def root():

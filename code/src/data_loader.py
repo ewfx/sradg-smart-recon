@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 from datetime import datetime
-from src.config import HISTORICAL_DATA_PATH, CURRENT_DATA_PATH
+from src.config import get_realtime_path, get_historical_path
 from src.data_generator import generate_historical_data, generate_realtime_data
 
 def load_csv(file_path, date_cols=["As of Date"]):
@@ -14,7 +14,7 @@ def get_historical_data(historical_path=None):
     Otherwise, use the config path; if the file doesn't exist, generate synthetic data.
     """
     if historical_path is None:
-        historical_path = HISTORICAL_DATA_PATH
+        historical_path = get_historical_path()
 
     if os.path.exists(historical_path):
         historical_df = load_csv(historical_path)
@@ -34,7 +34,7 @@ def get_realtime_data(historical_df, realtime_path=None):
     Otherwise, use the config path; if the file doesn't exist, generate synthetic realtime data.
     """
     if realtime_path is None:
-        realtime_path = CURRENT_DATA_PATH
+        realtime_path = get_realtime_path()
 
     if os.path.exists(realtime_path):
         realtime_df = load_csv(realtime_path)

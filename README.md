@@ -1,4 +1,4 @@
-# 🚀 Project Name Smart Reconsilation & Anomaly Detection
+# 🚀 Project Name : Smart Reconsilation & Anomaly Detection
 
 ## 📌 Table of Contents
 - [Introduction](#introduction)

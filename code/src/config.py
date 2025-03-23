@@ -1,12 +1,28 @@
 import os
 
+
 # Base directory: adjust as needed
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, '..', 'data')
 
-# File paths for data (used if no upload is performed)
-HISTORICAL_DATA_PATH = os.path.join(DATA_DIR, 'historical_reconciliation_data_001.csv')
-CURRENT_DATA_PATH = os.path.join(DATA_DIR, 'realtime_reconciliation_data_001.csv')
+# Mutable config
+_current_paths = {
+    "historical": os.path.join(DATA_DIR, 'historical_reconciliation_data_01.csv'),
+    "realtime": os.path.join(DATA_DIR, 'realtime_reconciliation_data_001.csv')
+}
+
+def get_historical_path():
+    return _current_paths["historical"]
+
+def get_realtime_path():
+    return _current_paths["realtime"]
+
+def set_historical_path(filename):
+    _current_paths["historical"] = os.path.join(DATA_DIR, filename)
+
+def set_realtime_path(filename):
+    _current_paths["realtime"] = os.path.join(DATA_DIR, filename)
+
 
 # Predefined anomaly buckets (bucket id : description)
 ANOMALY_BUCKETS = {
