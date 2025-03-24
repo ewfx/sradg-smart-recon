@@ -74,10 +74,14 @@ async def test_pipeline():
 
         # Convert to JSON for UI
         output_json = export_df.to_dict(orient="records")
-
+        df = pd.DataFrame(output_json)
+         # Calculate and print summary
+        total_impact = float(df["Balance Difference"].sum())
+       
         return JSONResponse(content={
             "message": "Anomalies detected successfully.",
             "anomaly_count": len(output_json),
+            "total_impact" : total_impact,
             "data": output_json  # 👈 Cleaned output for UI
         })
 
