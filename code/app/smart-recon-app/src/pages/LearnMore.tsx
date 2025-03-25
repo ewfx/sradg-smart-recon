@@ -32,9 +32,11 @@ const LearnMore: React.FC = () => {
               <h1 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300">
                 🚀 Smart Reconciliation & Anomaly Detection
               </h1>
-              <Button className="mt-4 md:mt-0">
-                <ExternalLink className="mr-2 h-4 w-4" />
-                Live Demo
+              <Button className="mt-4 md:mt-0" asChild>
+                <Link to="/">
+                  <ExternalLink className="mr-2 h-4 w-4" />
+                  Live Demo
+                </Link>
               </Button>
             </div>
             
@@ -43,6 +45,7 @@ const LearnMore: React.FC = () => {
               <ul>
                 <li><a href="#introduction" className="no-underline hover:underline text-blue-600 dark:text-blue-400">Introduction</a></li>
                 <li><a href="#demo" className="no-underline hover:underline text-blue-600 dark:text-blue-400">Demo</a></li>
+                <li><a href="#catalyst-impact" className="no-underline hover:underline text-blue-600 dark:text-blue-400">Catalyst vs Impact Reconciliation</a></li>
                 <li><a href="#inspiration" className="no-underline hover:underline text-blue-600 dark:text-blue-400">Inspiration</a></li>
                 <li><a href="#what-it-does" className="no-underline hover:underline text-blue-600 dark:text-blue-400">What It Does</a></li>
                 <li><a href="#how-we-built-it" className="no-underline hover:underline text-blue-600 dark:text-blue-400">How We Built It</a></li>
@@ -61,24 +64,105 @@ const LearnMore: React.FC = () => {
               
               <h2 id="demo" className="text-2xl font-semibold mt-8 mb-4">🎥 Demo</h2>
               <p>
-                <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">🔗 Live Demo</a><br />
-                <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">📹 Video Demo</a>
+                <Link to="/" className="text-blue-600 dark:text-blue-400 hover:underline">🔗 Live Demo</Link><br />
+                <a href="#screenshots" className="text-blue-600 dark:text-blue-400 hover:underline">📷 Screenshots</a>
               </p>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+              <h2 id="catalyst-impact" className="text-2xl font-semibold mt-8 mb-4">🔍 Catalyst vs Impact Reconciliation</h2>
+              <p>
+                The core of our application is the Catalyst vs Impact reconciliation feature that allows users to upload, analyze, and reconcile financial data from different systems. Below are key screenshots showcasing this functionality.
+              </p>
+              
+              <div className="grid grid-cols-1 gap-6 my-6">
                 <div className="rounded-lg overflow-hidden border dark:border-gray-700">
                   <img 
-                    src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
-                    alt="Dashboard screenshot" 
+                    src="/smartrecon-uploads/a8300661-1878-4818-a458-8c89df337b4c.png" 
+                    alt="Catalyst vs Impact Reconciliation interface" 
                     className="w-full h-auto"
                   />
+                  <p className="text-sm text-gray-500 dark:text-gray-400 p-2 bg-gray-50 dark:bg-gray-800">
+                    Main interface for Catalyst vs Impact Reconciliation with file upload option
+                  </p>
                 </div>
+                
                 <div className="rounded-lg overflow-hidden border dark:border-gray-700">
                   <img 
-                    src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
-                    alt="Anomaly detection screenshot" 
+                    src="/smartrecon-uploads/9fec204c-1840-4ab8-adf2-500c1c7aad15.png" 
+                    alt="Upload Pre-Analyzed File interface" 
                     className="w-full h-auto"
                   />
+                  <p className="text-sm text-gray-500 dark:text-gray-400 p-2 bg-gray-50 dark:bg-gray-800">
+                    Upload interface for pre-analyzed CSV files that will be split into Catalyst and Impact data
+                  </p>
+                </div>
+                
+                <div className="rounded-lg overflow-hidden border dark:border-gray-700">
+                  <img 
+                    src="/smartrecon-uploads/05b5dde6-ee6f-4d05-b7c4-5a88ffcceda2.png" 
+                    alt="Reconciliation Statistics dashboard" 
+                    className="w-full h-auto"
+                  />
+                  <p className="text-sm text-gray-500 dark:text-gray-400 p-2 bg-gray-50 dark:bg-gray-800">
+                    Reconciliation statistics showing match rate, issue rate, and detailed breakdown of match statuses
+                  </p>
+                </div>
+                
+                <div className="rounded-lg overflow-hidden border dark:border-gray-700">
+                  <img 
+                    src="/smartrecon-uploads/08af432b-557b-4072-adaa-b863ceed1598.png" 
+                    alt="AI-Powered Recommendations" 
+                    className="w-full h-auto"
+                  />
+                  <p className="text-sm text-gray-500 dark:text-gray-400 p-2 bg-gray-50 dark:bg-gray-800">
+                    AI-powered recommendations for resolving mismatches, with detailed suggestions and action buttons
+                  </p>
+                </div>
+                
+                <div className="rounded-lg overflow-hidden border dark:border-gray-700">
+                  <img 
+                    src="/smartrecon-uploads/c102b4af-fc06-4c85-9570-8b6f6b817d1a.png" 
+                    alt="Reconciliation data table" 
+                    className="w-full h-auto"
+                  />
+                  <p className="text-sm text-gray-500 dark:text-gray-400 p-2 bg-gray-50 dark:bg-gray-800">
+                    Detailed reconciliation data table with filtering options
+                  </p>
+                </div>
+              </div>
+              
+              <h2 id="screenshots" className="text-2xl font-semibold mt-8 mb-4">📷 Other Screenshots</h2>
+              <div className="grid grid-cols-1 gap-6 my-6">
+                <div className="rounded-lg overflow-hidden border dark:border-gray-700">
+                  <img 
+                    src="/smartrecon-uploads/afba84f0-85f1-4884-b88b-bbe3e19699d9.png" 
+                    alt="Smart-Recon landing page" 
+                    className="w-full h-auto"
+                  />
+                  <p className="text-sm text-gray-500 dark:text-gray-400 p-2 bg-gray-50 dark:bg-gray-800">
+                    Smart-Recon landing page with navigation menu and main options
+                  </p>
+                </div>
+                
+                <div className="rounded-lg overflow-hidden border dark:border-gray-700">
+                  <img 
+                    src="/smartrecon-uploads/5e4a0011-2b34-4b88-9b11-d27e3e8443bd.png" 
+                    alt="File upload interface" 
+                    className="w-full h-auto"
+                  />
+                  <p className="text-sm text-gray-500 dark:text-gray-400 p-2 bg-gray-50 dark:bg-gray-800">
+                    File upload interface for current and historical data reconciliation
+                  </p>
+                </div>
+                
+                <div className="rounded-lg overflow-hidden border dark:border-gray-700">
+                  <img 
+                    src="/smartrecon-uploads/7ece8ee1-60cd-413a-aefc-b2118f2ae71b.png" 
+                    alt="AI-Enhanced Anomaly Detection dashboard" 
+                    className="w-full h-auto"
+                  />
+                  <p className="text-sm text-gray-500 dark:text-gray-400 p-2 bg-gray-50 dark:bg-gray-800">
+                    AI-Enhanced Anomaly Detection dashboard showing stats, trends and insights
+                  </p>
                 </div>
               </div>
               
@@ -169,10 +253,10 @@ const LearnMore: React.FC = () => {
               </p>
             </div>
             <div className="flex space-x-8">
-              <a href="/" className="text-gray-300 hover:text-white transition-colors">Home</a>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">About</a>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">Features</a>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">Contact</a>
+              <Link to="/" className="text-gray-300 hover:text-white transition-colors">Home</Link>
+              <Link to="#" className="text-gray-300 hover:text-white transition-colors">About</Link>
+              <Link to="#" className="text-gray-300 hover:text-white transition-colors">Features</Link>
+              <Link to="#" className="text-gray-300 hover:text-white transition-colors">Contact</Link>
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400 text-sm">

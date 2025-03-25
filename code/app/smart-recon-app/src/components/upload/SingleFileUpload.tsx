@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { FileUp, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -90,11 +89,9 @@ export const SingleFileUpload: React.FC<SingleFileUploadProps> = ({ onFileSplitC
         let actions: any[] = [];
         let stats: ReconciliationStats | null = null;
         
-        // Parse the original file data
         const text = await selectedFile.text();
         originalData = parseCSV(text, selectedFile.name, 'original');
         
-        // Extract reconciliation stats from the response
         if (data.catalyst_rows !== undefined && 
             data.impact_rows !== undefined && 
             data.total_issue_count !== undefined && 
@@ -107,14 +104,12 @@ export const SingleFileUpload: React.FC<SingleFileUploadProps> = ({ onFileSplitC
           };
         }
         
-        // Use the API response data
         if (data.catalyst_data && Array.isArray(data.catalyst_data)) {
           file1Data = data.catalyst_data.map((item: any) => ({
             ...item,
             type: 'anomaly'
           }));
         } else {
-          // Fallback to CSV parsing if API doesn't return expected data
           const splitIndex = Math.ceil(originalData.length * 0.3);
           file1Data = originalData.slice(0, splitIndex).map(item => ({
             ...item,
@@ -129,7 +124,6 @@ export const SingleFileUpload: React.FC<SingleFileUploadProps> = ({ onFileSplitC
             type: 'processed'
           }));
         } else {
-          // Fallback to CSV parsing if API doesn't return expected data
           const splitIndex = Math.ceil(originalData.length * 0.3);
           file2Data = originalData.slice(splitIndex).map(item => ({
             ...item,
@@ -137,7 +131,6 @@ export const SingleFileUpload: React.FC<SingleFileUploadProps> = ({ onFileSplitC
           }));
         }
         
-        // Extract headers from the data
         if (originalData.length > 0) {
           headers = Object.keys(originalData[0]);
         } else if (file1Data.length > 0) {
@@ -146,7 +139,6 @@ export const SingleFileUpload: React.FC<SingleFileUploadProps> = ({ onFileSplitC
           headers = Object.keys(file2Data[0]);
         }
         
-        // Generate actions based on the anomaly data
         const actionTypes = [
           { keyword: 'duplicate', icon: 'FileText', type: 'duplicate-resolution' },
           { keyword: 'missing', icon: 'Search', type: 'missing-data-check' },
@@ -171,13 +163,11 @@ export const SingleFileUpload: React.FC<SingleFileUploadProps> = ({ onFileSplitC
         
         toast.success(`Successfully processed ${selectedFile.name}`, { id: fileToastId });
         
-        // Pass the filename and stats to the parent component
         onFileSplitComplete(originalData, file1Data, file2Data, headers, actions, selectedFile.name, stats);
       } catch (error) {
         console.error('Error processing file:', error);
         toast.error(`Error processing file: ${error instanceof Error ? error.message : 'Unknown error'}`, { id: fileToastId });
         
-        // Fallback to local processing
         const text = await selectedFile.text();
         const originalData = parseCSV(text, selectedFile.name, 'original');
         const splitIndex = Math.ceil(originalData.length * 0.3);
@@ -204,7 +194,6 @@ export const SingleFileUpload: React.FC<SingleFileUploadProps> = ({ onFileSplitC
           }
         ];
         
-        // Create mock stats for fallback
         const mockStats: ReconciliationStats = {
           catalyst_rows: file1Data.length,
           impact_rows: file2Data.length,
@@ -217,7 +206,6 @@ export const SingleFileUpload: React.FC<SingleFileUploadProps> = ({ onFileSplitC
           }
         };
         
-        // Pass the original data, split data, and mock stats to the parent component even in error case
         onFileSplitComplete(originalData, file1Data, file2Data, headers, actions, selectedFile.name, mockStats);
       }
     } finally {
