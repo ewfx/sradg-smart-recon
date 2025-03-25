@@ -1,54 +1,58 @@
+# import requests
 
+# def test_rule_suggestions():
+#     # Base URL for your FastAPI server (adjust if different)
+#     base_url = "http://127.0.0.1:8000"
+#     endpoint = "/rule-suggestions"
+    
+#     # File name you expect to be saved in your DATA_DIR (e.g., from your upload endpoint)
+#     filename = "CatalystReconciledData.csv"
+    
+#     # Construct full URL with query parameter
+#     params = {"filename": filename}
+#     url = f"{base_url}{endpoint}"
+    
+#     response = requests.get(url, params=params)
+    
+#     print("Status Code:", response.status_code)
+#     try:
+#         data = response.json()
+#         print("Response JSON:", data)
+#     except Exception as e:
+#         print("Failed to parse JSON response:", e)
+    
+# if __name__ == "__main__":
+#     test_rule_suggestions()
+
+import requests
 import os
-import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
-from huggingface_hub import login
-from pathlib import Path
 
-def verify_token():
-    token = "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"
-    if not token:
-        raise EnvironmentError("❌ HUGGINGFACE_HUB_TOKEN is not set in environment variables.")
-    return token
+def test_upload_reconciliation():
+    # Base URL of your FastAPI server (adjust if needed)
+    url = "http://127.0.0.1:8000/upload-reconciliation"
 
-def login_to_huggingface(token):
+
+    
+    # Path to your sample reconciliation CSV file (ensure this file exists)
+    file_path = os.path.join("data", "CatalystReconciledData.csv")
+    
+    if not os.path.exists(file_path):
+        print(f"File {file_path} does not exist. Please ensure the file is available.")
+        return
+
+    with open(file_path, "rb") as f:
+        # Construct the files payload
+        files = {"file": (os.path.basename(file_path), f, "text/csv")}
+        response = requests.post(url, files=files)
+    
+    print("Status Code:", response.status_code)
     try:
-        login(token=token)
-        print("✅ Logged into Hugging Face.")
+        data = response.json()
+        print("Response JSON:")
+        print(data)
     except Exception as e:
-        raise RuntimeError(f"❌ Failed to login to Hugging Face: {e}")
-
-def download_llama_model(model_name, token):
-    try:
-        print(f"⬇️ Downloading model: {model_name}")
-        tokenizer = AutoTokenizer.from_pretrained(model_name, token=token)
-        model = AutoModelForCausalLM.from_pretrained(
-            model_name,
-            token=token,
-            torch_dtype=torch.float16,
-            device_map="auto"
-        )
-        print("✅ Model and tokenizer downloaded successfully.")
-    except Exception as e:
-        raise RuntimeError(f"❌ Download failed: {e}")
-
-def check_local_cache(model_name):
-    model_dir = Path.home() / ".cache" / "huggingface" / "hub"
-    print(f"🔍 Checking cache at: {model_dir}")
-
-    matched_dirs = list(model_dir.rglob(f"models--{model_name.replace('/', '--')}"))
-    if matched_dirs:
-        print(f"✅ Cached model found at: {matched_dirs[0]}")
-    else:
-        print("❌ Model is NOT cached locally yet.")
+        print("Error parsing JSON response:", e)
 
 if __name__ == "__main__":
-    MODEL_NAME = "meta-llama/Llama-2-7b-chat-hf"
-    
-    try:
-        token = verify_token()
-        login_to_huggingface(token)
-        download_llama_model(MODEL_NAME, token)
-        check_local_cache(MODEL_NAME)
-    except Exception as err:
-        print(err)
+    test_upload_reconciliation()
+

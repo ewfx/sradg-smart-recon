@@ -1,4 +1,3 @@
-
 import { useCallback } from 'react';
 import { toast } from 'sonner';
 import { DynamicColumnData } from '@/lib/csv-parser';
@@ -10,6 +9,7 @@ export interface UseAnomalyApiClientProps {
   updateAnomalyStats: (count: number, impact: number) => void;
   setDownloadFile: (url: string) => void;
   completeProgress: () => void;
+  apiKey?: string | null;
 }
 
 export const useAnomalyApiClient = ({ 
@@ -17,7 +17,8 @@ export const useAnomalyApiClient = ({
   onAnomalyInsightsReceived,
   updateAnomalyStats,
   setDownloadFile,
-  completeProgress
+  completeProgress,
+  apiKey = null
 }: UseAnomalyApiClientProps) => {
 
   const callAnomalyDetectionApi = useCallback(async () => {
@@ -29,13 +30,25 @@ export const useAnomalyApiClient = ({
       const timeoutId = setTimeout(() => controller.abort(), 300000);
       
       try {
-        const response = await fetch(`${API_BASE_URL}/test`, {
+        // Build the URL with API key as a query parameter if provided
+        let apiUrl = `${API_BASE_URL}/test`;
+        
+        // Add API key to URL if provided
+        if (apiKey) {
+          apiUrl += `?openai_key=${encodeURIComponent(apiKey)}`;
+          console.log('Using provided API key for API call via URL parameter');
+        }
+        
+        // Prepare headers - no API key in headers now
+        const headers: HeadersInit = {
+          'Accept': 'application/json, text/csv, */*',
+          'Cache-Control': 'no-cache'
+        };
+        
+        const response = await fetch(apiUrl, {
           method: 'GET',
           signal: controller.signal,
-          headers: {
-            'Accept': 'application/json, text/csv, */*',
-            'Cache-Control': 'no-cache'
-          }
+          headers
         });
         
         clearTimeout(timeoutId);
@@ -172,7 +185,7 @@ export const useAnomalyApiClient = ({
       
       return false;
     }
-  }, [onAnomalyDataReceived, onAnomalyInsightsReceived, updateAnomalyStats, setDownloadFile, completeProgress]);
+  }, [onAnomalyDataReceived, onAnomalyInsightsReceived, updateAnomalyStats, setDownloadFile, completeProgress, apiKey]);
 
   return {
     callAnomalyDetectionApi

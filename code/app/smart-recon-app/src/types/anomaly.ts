@@ -1,4 +1,3 @@
-
 import { DynamicColumnData } from '@/lib/csv-parser';
 
 // Response type for insights API
@@ -53,10 +52,11 @@ export interface UseAnomalyDetectionProps {
   onAnomalyDataReceived?: (data: DynamicColumnData[], headers: string[]) => void;
   onAnomalyInsightsReceived?: (anomalies: AnomalyItem[]) => void;
   onAnomalyStatsChange?: (count: number, impact: number) => void;
+  apiKey?: string | null;
 }
 
 // Props for the anomaly insights hook
 export interface UseAnomalyInsightsProps {
   onAnomalyInsightsReceived?: (anomalies: AnomalyItem[]) => void;
-  forceRefresh?: boolean;
+  apiKey?: string | null;
 }

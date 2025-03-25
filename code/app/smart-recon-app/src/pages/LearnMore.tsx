@@ -56,7 +56,7 @@ const LearnMore: React.FC = () => {
               
               <h2 id="introduction" className="text-2xl font-semibold mt-8 mb-4">🎯 Introduction</h2>
               <p>
-                Smart-Recon is an intelligent financial reconciliation platform that uses generative AI to detect anomalies and discrepancies in financial data. It helps finance teams automate the tedious process of comparing and reconciling financial records, reducing manual work and increasing accuracy.
+                Smart Reconciliation & Anomaly Detection is a GenAI-powered platform that automates financial data reconciliation between multiple systems (e.g., GL vs iHub) and detects anomalies intelligently. It aims to streamline the traditionally manual, error-prone reconciliation process using AI-driven analysis and insights. This project addresses the hackathon problem statement: "Smarter Reconciliation and Anomaly Detection using GenAI".
               </p>
               
               <h2 id="demo" className="text-2xl font-semibold mt-8 mb-4">🎥 Demo</h2>
@@ -84,74 +84,49 @@ const LearnMore: React.FC = () => {
               
               <h2 id="inspiration" className="text-2xl font-semibold mt-8 mb-4">💡 Inspiration</h2>
               <p>
-                Financial reconciliation is a critical but time-consuming process for finance departments. Traditional reconciliation methods require hours of manual work comparing data from different sources, trying to identify discrepancies. We were inspired to create Smart-Recon after witnessing firsthand the frustration and inefficiency of manual reconciliation processes. By applying generative AI to this problem, we can dramatically reduce the time and effort required while improving accuracy.
+                Manual reconciliation in financial systems is time-consuming, repetitive, and prone to human error. Our inspiration came from the need to automate this workflow intelligently using machine learning and generative AI, reducing effort while improving accuracy and traceability.
               </p>
               
               <h2 id="what-it-does" className="text-2xl font-semibold mt-8 mb-4">⚙️ What It Does</h2>
-              <p>
-                Smart-Recon provides the following key features:
-              </p>
               <ul>
-                <li>Automated data import from multiple sources (CSV files, databases, APIs)</li>
-                <li>Intelligent matching of records across different sources</li>
-                <li>AI-powered anomaly detection to identify inconsistencies and errors</li>
-                <li>Interactive visualizations to help finance teams understand discrepancies</li>
-                <li>Detailed reports and insights with suggested remediation actions</li>
-                <li>Workflow automation to streamline the reconciliation process</li>
+                <li>Ingests and processes historical and real-time financial data</li>
+                <li>Detects anomalies using Isolation Forest models per account/entity</li>
+                <li>Maps anomalies to meaningful business buckets (e.g., "Reversal Entry", "Gradual Deviation")</li>
+                <li>Generates AI-driven insights using GPT-4o or open-source LLMs</li>
+                <li>Provides downloadable anomaly reports and insights for finance teams</li>
+                <li>Offers a seamless API-driven interface to integrate with UIs</li>
               </ul>
               
               <h2 id="how-we-built-it" className="text-2xl font-semibold mt-8 mb-4">🛠️ How We Built It</h2>
               <p>
-                Our application is built using a modern tech stack that combines powerful frontend technologies with AI capabilities:
+                We built the solution using Python (FastAPI backend), Pandas for data wrangling, and scikit-learn for ML modeling. For insight generation, we used OpenAI's GPT-4o and fallback options like HuggingFace models. The system is modular and structured for configurability, including a UI integration-ready backend.
               </p>
-              <ul>
-                <li>React for the frontend user interface with TypeScript for type safety</li>
-                <li>Tailwind CSS and Shadcn UI for responsive and accessible design</li>
-                <li>Flask backend API for data processing and AI integration</li>
-                <li>TensorFlow for anomaly detection and pattern recognition</li>
-                <li>OpenAI's GPT model for generating insights and recommendations</li>
-                <li>Recharts for data visualization and interactive charts</li>
-              </ul>
               
               <h2 id="challenges-we-faced" className="text-2xl font-semibold mt-8 mb-4">🚧 Challenges We Faced</h2>
-              <p>
-                During development, we encountered several challenges:
-              </p>
               <ul>
-                <li>Handling diverse data formats and structures from different financial systems</li>
-                <li>Building an accurate matching algorithm that could handle imperfect data</li>
-                <li>Optimizing the AI models to provide real-time insights for large datasets</li>
-                <li>Creating an intuitive user interface that financial professionals would find easy to use</li>
-                <li>Ensuring data privacy and security while processing sensitive financial information</li>
+                <li>Handling diverse financial data formats and real-time ingestion</li>
+                <li>Mapping raw anomaly outputs to interpretable business buckets</li>
+                <li>Managing large model integration (e.g., LLaMA, Mistral) with limited compute</li>
+                <li>Ensuring fast performance and accuracy in anomaly detection</li>
+                <li>Rate limits and authentication hurdles with OpenAI during testing</li>
               </ul>
               
               <h2 id="how-to-run" className="text-2xl font-semibold mt-8 mb-4">🏃 How to Run</h2>
-              <p>Follow these steps to run the project locally:</p>
-              
-              <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-md my-4">
-                <p className="font-semibold mb-2">1. Clone the repository</p>
-                <pre className="bg-black text-white p-2 rounded overflow-x-auto">
-                  <code>git clone https://github.com/your-repo/smart-recon.git</code>
-                </pre>
-                
-                <p className="font-semibold mt-4 mb-2">2. Install dependencies</p>
-                <pre className="bg-black text-white p-2 rounded overflow-x-auto">
-                  <code>npm install</code>
-                </pre>
-                
-                <p className="font-semibold mt-4 mb-2">3. Run the project</p>
-                <pre className="bg-black text-white p-2 rounded overflow-x-auto">
-                  <code>npm start</code>
-                </pre>
-              </div>
+              <ol>
+                <li>Clone the repository</li>
+                <li>Install dependencies</li>
+                <li>Run the FastAPI backend</li>
+                <li>Upload reconciliation files via the UI or API</li>
+                <li>Call /test or /insights endpoint to see results</li>
+              </ol>
               
               <h2 id="tech-stack" className="text-2xl font-semibold mt-8 mb-4">🏗️ Tech Stack</h2>
               <ul>
-                <li>🔹 <strong>Frontend:</strong> React, TypeScript, Tailwind CSS, Shadcn UI</li>
-                <li>🔹 <strong>Backend:</strong> Flask, Python</li>
-                <li>🔹 <strong>AI/ML:</strong> TensorFlow, OpenAI GPT</li>
-                <li>🔹 <strong>Data Visualization:</strong> Recharts</li>
-                <li>🔹 <strong>DevOps:</strong> Docker, GitHub Actions</li>
+                <li>🔹 <strong>Frontend:</strong> React (UI under development)</li>
+                <li>🔹 <strong>Backend:</strong> FastAPI (Python)</li>
+                <li>🔹 <strong>ML/AI:</strong> scikit-learn, OpenAI API, HuggingFace Transformers</li>
+                <li>🔹 <strong>Storage:</strong> Local CSV-based storage (for demo)</li>
+                <li>🔹 <strong>Other:</strong> Pandas, Faker, Isolation Forest, LLM-based insights</li>
               </ul>
               
               <h2 id="team" className="text-2xl font-semibold mt-8 mb-4">👥 Team</h2>

@@ -1,87 +1,77 @@
 {
-  "total_anomalies": 39,
-  "total_impact": -63000.0,
+  "total_anomalies": 34,
+  "total_impact": 9000.0,
   "insights": [
     {
       "bucket_id": 1,
       "bucket_description": "Inconsistent variations in outstanding balances",
-      "anomaly_count": 17,
+      "anomaly_count": 13,
       "sample_companies": [
-        "Doyle Ltd",
-        "Galloway-Wyatt",
-        "Flowers, Martin and Kelly"
+        "Gardner, Robinson and Lawrence",
+        "Walter, Edwards and Rios",
+        "Snyder, Campos and Callahan"
       ],
-      "root_cause": "Fluctuations in transaction timing or errors in data entry.",
-      "recommendation": "Review transaction logs and correct any discrepancies."
-    },
-    {
-      "bucket_id": 11,
-      "bucket_description": "No clear pattern, but deviation exceeds threshold",
-      "anomaly_count": 7,
-      "sample_companies": [
-        "Abbott-Munoz",
-        "Martin, Rose and Obrien",
-        "Brown, Valdez and Lucas"
-      ],
-      "root_cause": "Potential irregularities in transaction processing.",
-      "recommendation": "Conduct a detailed audit to identify unusual transactions."
+      "root_cause": "The variations in outstanding balances may be due to irregular payment patterns or errors in transaction recording.",
+      "recommendation": "Review transaction logs and payment schedules for inconsistencies."
     },
     {
       "bucket_id": 2,
       "bucket_description": "Consistent increase or decrease in outstanding balances",
-      "anomaly_count": 6,
+      "anomaly_count": 9,
       "sample_companies": [
+        "Rodriguez, Figueroa and Sanchez",
         "Mcclain, Miller and Henderson",
-        "James Group",
-        "Williams PLC"
+        "Davis and Sons"
       ],
-      "root_cause": "Consistent changes in account activities or manual adjustments.",
-      "recommendation": "Analyze account activities for systematic changes."
+      "root_cause": "This trend might be caused by systematic errors in billing or changes in customer payment behavior.",
+      "recommendation": "Investigate billing processes and customer payment trends to identify underlying issues."
+    },
+    {
+      "bucket_id": 4,
+      "bucket_description": "Outstanding balances are not in line with previous months",
+      "anomaly_count": 4,
+      "sample_companies": [
+        "Guzman, Hoffman and Baldwin",
+        "Martin, Rose and Obrien",
+        "Novak PLC"
+      ],
+      "root_cause": "There may be errors in monthly closing processes or unusual transactions impacting balances.",
+      "recommendation": "Conduct a detailed review of monthly closing entries and transactions."
     },
     {
       "bucket_id": 8,
       "bucket_description": "Reversal or correction entry detected",
       "anomaly_count": 3,
       "sample_companies": [
-        "Guzman, Hoffman and Baldwin",
-        "Woods, Calhoun and Schmidt",
-        "Donovan-Harris"
+        "Flowers, Martin and Kelly",
+        "Adams, Zuniga and Wong",
+        "Ferrell, Jones and Lewis"
       ],
-      "root_cause": "Manual reversals or corrections in the accounting system.",
-      "recommendation": "Verify the validity of reversal entries and correct as needed."
-    },
-    {
-      "bucket_id": 4,
-      "bucket_description": "Outstanding balances are not in line with previous months",
-      "anomaly_count": 3,
-      "sample_companies": [
-        "Snyder, Campos and Callahan",
-        "Harris, Collins and Carney",
-        "Suarez LLC"
-      ],
-      "root_cause": "Significant changes in business operations or reporting errors.",
-      "recommendation": "Compare current balances with historical data to identify causes."
-    },
-    {
-      "bucket_id": 5,
-      "bucket_description": "Gradual deviation beyond threshold over multiple periods",
-      "anomaly_count": 2,
-      "sample_companies": [
-        "Stanley, Tucker and Lee",
-        "Hensley, Powell and David"
-      ],
-      "root_cause": "Progressive errors in data entry or reporting.",
-      "recommendation": "Investigate trends over time to pinpoint gradual discrepancies."
+      "root_cause": "Reversal or correction entries could be due to prior period adjustments or error rectifications.",
+      "recommendation": "Verify the legitimacy of reversal or correction entries and ensure proper documentation."
     },
     {
       "bucket_id": 7,
       "bucket_description": "High volatility in account balances over time",
-      "anomaly_count": 1,
+      "anomaly_count": 3,
       "sample_companies": [
+        "Hickman Ltd",
+        "Russell Group",
         "Turner, Riggs and Roman"
       ],
-      "root_cause": "Frequent and unpredictable transaction changes.",
-      "recommendation": "Stabilize account management practices to reduce volatility."
+      "root_cause": "Volatility may result from fluctuating transaction volumes or external economic factors.",
+      "recommendation": "Analyze transaction patterns and external factors influencing account balances."
+    },
+    {
+      "bucket_id": 11,
+      "bucket_description": "No clear pattern, but deviation exceeds threshold",
+      "anomaly_count": 2,
+      "sample_companies": [
+        "Ross, Robinson and Bright",
+        "Edwards, Baker and Anderson"
+      ],
+      "root_cause": "Random deviations may be due to isolated incidents or errors that do not follow a pattern.",
+      "recommendation": "Perform a thorough investigation of these deviations to identify any isolated issues."
     }
   ]
 }

@@ -1,40 +1,35 @@
 Company,Account,AU,Primary Account,Secondary Account,GL Balance,iHub Balance,Balance Difference,predicted_label,anomaly_score,anomaly_bucket,Bucket Description
-Doyle Ltd,740,4457,COMMERCIAL LOANS,INTEREST RECEIVABLE,83000,83000,0,Anomaly,-0.012115576065986344,1.0,Inconsistent variations in outstanding balances
-"Mcclain, Miller and Henderson",298,7026,RETAIL LOANS,INTEREST RECEIVABLE,32000,23000,9000,Anomaly,-0.01904817492078903,2.0,Consistent increase or decrease in outstanding balances
-"Guzman, Hoffman and Baldwin",365,3735,COMMERCIAL LOANS,DEFERRED COSTS,82000,93000,-11000,Anomaly,-0.0730059011423645,8.0,Reversal or correction entry detected
-Abbott-Munoz,327,3108,RETAIL LOANS,DEFERRED COSTS,88000,105000,-17000,Anomaly,-0.027475048657229495,11.0,"No clear pattern, but deviation exceeds threshold"
-Galloway-Wyatt,493,9115,ALL LOB LOANS,PRINCIPAL,22000,22000,0,Anomaly,-0.02157960346863852,1.0,Inconsistent variations in outstanding balances
-James Group,507,1719,RETAIL LOANS,INTEREST RECEIVABLE,30000,24000,6000,Anomaly,-0.027450171478111796,2.0,Consistent increase or decrease in outstanding balances
-"Flowers, Martin and Kelly",370,9719,ALL LOB LOANS,PRINCIPAL,28000,25000,3000,Anomaly,-0.07126249681842767,1.0,Inconsistent variations in outstanding balances
-"Ross, Robinson and Bright",117,9704,ALL LOB LOANS,INTEREST RECEIVABLE,28000,28000,0,Anomaly,-0.001058573580248745,1.0,Inconsistent variations in outstanding balances
-"Snyder, Campos and Callahan",393,7513,ALL LOB LOANS,DEFERRED COSTS,79000,67000,12000,Anomaly,-0.03709600978284988,4.0,Outstanding balances are not in line with previous months
-Burton Ltd,141,3522,COMMERCIAL LOANS,INTEREST RECEIVABLE,91000,91000,0,Anomaly,-0.023651337965907127,1.0,Inconsistent variations in outstanding balances
-"Romero, Gonzalez and Brooks",595,8744,COMMERCIAL LOANS,PRINCIPAL,30000,30000,0,Anomaly,-0.011792483980995638,1.0,Inconsistent variations in outstanding balances
-Ryan PLC,545,7208,RETAIL LOANS,INTEREST RECEIVABLE,24000,24000,0,Anomaly,-0.025150420386178207,1.0,Inconsistent variations in outstanding balances
-"Martin, Rose and Obrien",428,7969,ALL LOB LOANS,INTEREST RECEIVABLE,63000,79000,-16000,Anomaly,-0.0543258572254921,11.0,"No clear pattern, but deviation exceeds threshold"
-"Harris, Collins and Carney",386,2994,ALL LOB LOANS,DEFERRED COSTS,71000,60000,11000,Anomaly,-0.028896427261893343,4.0,Outstanding balances are not in line with previous months
-"Robinson, Jones and Welch",675,6838,RETAIL LOANS,INTEREST RECEIVABLE,40000,43000,-3000,Anomaly,-0.032313490393126365,1.0,Inconsistent variations in outstanding balances
-"Washington, Ryan and Cummings",118,4195,RETAIL LOANS,DEFERRED COSTS,58000,58000,0,Anomaly,-0.006127601037650532,1.0,Inconsistent variations in outstanding balances
-"Brown, Valdez and Lucas",798,9951,ALL LOB LOANS,PRINCIPAL,72000,87000,-15000,Anomaly,-0.0398005569012998,11.0,"No clear pattern, but deviation exceeds threshold"
-Powell LLC,931,1997,COMMERCIAL LOANS,PRINCIPAL,102000,102000,0,Anomaly,-0.03975420875716651,1.0,Inconsistent variations in outstanding balances
-Wright and Sons,407,5467,COMMERCIAL LOANS,INTEREST RECEIVABLE,60000,77000,-17000,Anomaly,-0.0080244509523405,11.0,"No clear pattern, but deviation exceeds threshold"
-Williams PLC,710,2130,COMMERCIAL LOANS,INTEREST RECEIVABLE,41000,33000,8000,Anomaly,-0.007562916020961152,2.0,Consistent increase or decrease in outstanding balances
-Novak and Sons,142,8497,ALL LOB LOANS,PRINCIPAL,39000,39000,0,Anomaly,-0.023028067981165856,1.0,Inconsistent variations in outstanding balances
-Russell Group,752,6611,RETAIL LOANS,PRINCIPAL,44000,37000,7000,Anomaly,-0.04701250571496418,2.0,Consistent increase or decrease in outstanding balances
-Hancock Inc,285,1887,COMMERCIAL LOANS,PRINCIPAL,53000,53000,0,Anomaly,-0.0031601749691080316,1.0,Inconsistent variations in outstanding balances
-Henderson-Bernard,521,2834,RETAIL LOANS,DEFERRED COSTS,92000,83000,9000,Anomaly,-0.008169622599784043,2.0,Consistent increase or decrease in outstanding balances
-"Stanley, Tucker and Lee",462,5805,COMMERCIAL LOANS,PRINCIPAL,86000,69000,17000,Anomaly,-0.03137624586165,5.0,Gradual deviation beyond threshold over multiple periods
-Novak PLC,629,3696,ALL LOB LOANS,DEFERRED COSTS,77000,93000,-16000,Anomaly,-0.011991024198408806,11.0,"No clear pattern, but deviation exceeds threshold"
-"Daniels, Adkins and Brown",374,5389,COMMERCIAL LOANS,PRINCIPAL,41000,34000,7000,Anomaly,-0.013546153992085586,2.0,Consistent increase or decrease in outstanding balances
-"Woods, Calhoun and Schmidt",476,5284,COMMERCIAL LOANS,DEFERRED COSTS,96000,108000,-12000,Anomaly,-0.019159538591651093,8.0,Reversal or correction entry detected
-Yu Inc,484,8330,ALL LOB LOANS,DEFERRED COSTS,52000,52000,0,Anomaly,-0.005962136552188357,1.0,Inconsistent variations in outstanding balances
-"Hensley, Powell and David",264,8778,COMMERCIAL LOANS,INTEREST RECEIVABLE,91000,76000,15000,Anomaly,-0.039484239906576346,5.0,Gradual deviation beyond threshold over multiple periods
-Donovan-Harris,839,5669,COMMERCIAL LOANS,DEFERRED COSTS,82000,95000,-13000,Anomaly,-0.02071044550393486,8.0,Reversal or correction entry detected
-Smith PLC,399,2601,COMMERCIAL LOANS,PRINCIPAL,93000,97000,-4000,Anomaly,-0.01229375357323892,1.0,Inconsistent variations in outstanding balances
-"Ferrell, Jones and Lewis",124,3303,ALL LOB LOANS,DEFERRED COSTS,52000,67000,-15000,Anomaly,-0.05122072054568305,11.0,"No clear pattern, but deviation exceeds threshold"
-Suarez LLC,813,8148,ALL LOB LOANS,DEFERRED COSTS,55000,41000,14000,Anomaly,-0.0027204163595923037,4.0,Outstanding balances are not in line with previous months
-Moore-Bass,260,9772,RETAIL LOANS,PRINCIPAL,53000,54000,-1000,Anomaly,-0.020013174724624383,1.0,Inconsistent variations in outstanding balances
-"Turner, Riggs and Roman",349,9219,COMMERCIAL LOANS,DEFERRED COSTS,85000,109000,-24000,Anomaly,-0.013264245970764033,7.0,High volatility in account balances over time
-Campbell-Clark,917,1465,COMMERCIAL LOANS,DEFERRED COSTS,97000,99000,-2000,Anomaly,-0.016325822288571268,1.0,Inconsistent variations in outstanding balances
-Davis Group,313,7389,RETAIL LOANS,INTEREST RECEIVABLE,77000,77000,0,Anomaly,-0.03522045039706134,1.0,Inconsistent variations in outstanding balances
-Walsh LLC,906,9169,ALL LOB LOANS,PRINCIPAL,59000,74000,-15000,Anomaly,-0.027246417179273452,11.0,"No clear pattern, but deviation exceeds threshold"
+"Rodriguez, Figueroa and Sanchez",754,2824,ALL LOB LOANS,INTEREST RECEIVABLE,31000,26000,5000,Anomaly,-0.008637001230054953,2.0,Consistent increase or decrease in outstanding balances
+"Mcclain, Miller and Henderson",298,7026,RETAIL LOANS,INTEREST RECEIVABLE,32000,24000,8000,Anomaly,-0.01904817492078903,2.0,Consistent increase or decrease in outstanding balances
+Davis and Sons,537,9120,ALL LOB LOANS,PRINCIPAL,51000,42000,9000,Anomaly,-0.04301575310439543,2.0,Consistent increase or decrease in outstanding balances
+"Guzman, Hoffman and Baldwin",365,3735,COMMERCIAL LOANS,DEFERRED COSTS,90000,78000,12000,Anomaly,-0.07832535130300211,4.0,Outstanding balances are not in line with previous months
+"Gardner, Robinson and Lawrence",237,6615,COMMERCIAL LOANS,PRINCIPAL,22000,21000,1000,Anomaly,-0.020639940728605977,1.0,Inconsistent variations in outstanding balances
+"Flowers, Martin and Kelly",370,9719,ALL LOB LOANS,PRINCIPAL,41000,51000,-10000,Anomaly,-0.016422158341418913,8.0,Reversal or correction entry detected
+"Adams, Zuniga and Wong",694,7547,RETAIL LOANS,INTEREST RECEIVABLE,88000,102000,-14000,Anomaly,-0.0017323056243029322,8.0,Reversal or correction entry detected
+"Watts, Robinson and Nguyen",735,2415,ALL LOB LOANS,DEFERRED COSTS,101000,110000,-9000,Anomaly,-0.0279658463535567,2.0,Consistent increase or decrease in outstanding balances
+"Walter, Edwards and Rios",354,3900,COMMERCIAL LOANS,PRINCIPAL,57000,60000,-3000,Anomaly,-0.03554666621595037,1.0,Inconsistent variations in outstanding balances
+"Ross, Robinson and Bright",117,9704,ALL LOB LOANS,INTEREST RECEIVABLE,90000,117000,-27000,Anomaly,-0.09498168035934784,11.0,"No clear pattern, but deviation exceeds threshold"
+"Snyder, Campos and Callahan",393,7513,ALL LOB LOANS,DEFERRED COSTS,85000,85000,0,Anomaly,-0.0017694436803530333,1.0,Inconsistent variations in outstanding balances
+Burton Ltd,141,3522,COMMERCIAL LOANS,INTEREST RECEIVABLE,22000,27000,-5000,Anomaly,-0.014867772489580044,2.0,Consistent increase or decrease in outstanding balances
+"Dyer, Potter and Mack",736,5713,RETAIL LOANS,PRINCIPAL,94000,94000,0,Anomaly,-0.016578057780908595,1.0,Inconsistent variations in outstanding balances
+Smith-Bowen,977,3649,RETAIL LOANS,DEFERRED COSTS,43000,43000,0,Anomaly,-0.004007055048601549,1.0,Inconsistent variations in outstanding balances
+Harrell LLC,604,7953,COMMERCIAL LOANS,PRINCIPAL,20000,15000,5000,Anomaly,-0.03929205800651703,2.0,Consistent increase or decrease in outstanding balances
+Spence PLC,754,6274,ALL LOB LOANS,PRINCIPAL,48000,53000,-5000,Anomaly,-0.0335042712143937,2.0,Consistent increase or decrease in outstanding balances
+"Martin, Rose and Obrien",428,7969,ALL LOB LOANS,INTEREST RECEIVABLE,34000,24000,10000,Anomaly,-0.008954783033781388,4.0,Outstanding balances are not in line with previous months
+Hickman Ltd,900,5250,RETAIL LOANS,DEFERRED COSTS,88000,65000,23000,Anomaly,-0.01156794795666638,7.0,High volatility in account balances over time
+"Robinson, Jones and Welch",675,6838,RETAIL LOANS,INTEREST RECEIVABLE,69000,66000,3000,Anomaly,-0.02179878263290347,1.0,Inconsistent variations in outstanding balances
+"Washington, Ryan and Cummings",118,4195,RETAIL LOANS,DEFERRED COSTS,30000,30000,0,Anomaly,-0.006127601037650532,1.0,Inconsistent variations in outstanding balances
+Powell LLC,931,1997,COMMERCIAL LOANS,PRINCIPAL,97000,97000,0,Anomaly,-0.01940530776048155,1.0,Inconsistent variations in outstanding balances
+Russell Group,752,6611,RETAIL LOANS,PRINCIPAL,83000,61000,22000,Anomaly,-0.01956619795199832,7.0,High volatility in account balances over time
+Novak PLC,629,3696,ALL LOB LOANS,DEFERRED COSTS,98000,84000,14000,Anomaly,-0.010202967832224297,4.0,Outstanding balances are not in line with previous months
+Yu Inc,484,8330,ALL LOB LOANS,DEFERRED COSTS,27000,27000,0,Anomaly,-0.005962136552188357,1.0,Inconsistent variations in outstanding balances
+"Hensley, Powell and David",264,8778,COMMERCIAL LOANS,INTEREST RECEIVABLE,51000,38000,13000,Anomaly,-0.03125347078057694,4.0,Outstanding balances are not in line with previous months
+"Edwards, Baker and Anderson",892,1719,COMMERCIAL LOANS,INTEREST RECEIVABLE,64000,79000,-15000,Anomaly,-0.0003607885490130025,11.0,"No clear pattern, but deviation exceeds threshold"
+Smith PLC,399,2601,COMMERCIAL LOANS,PRINCIPAL,53000,48000,5000,Anomaly,-0.05590961226995872,2.0,Consistent increase or decrease in outstanding balances
+"Ferrell, Jones and Lewis",124,3303,ALL LOB LOANS,DEFERRED COSTS,55000,68000,-13000,Anomaly,-0.014615428169688971,8.0,Reversal or correction entry detected
+Anderson-Bailey,844,6695,RETAIL LOANS,DEFERRED COSTS,24000,21000,3000,Anomaly,-0.04048407388028419,1.0,Inconsistent variations in outstanding balances
+Suarez LLC,813,8148,ALL LOB LOANS,DEFERRED COSTS,20000,26000,-6000,Anomaly,-0.024061656631261363,2.0,Consistent increase or decrease in outstanding balances
+"Turner, Riggs and Roman",349,9219,COMMERCIAL LOANS,DEFERRED COSTS,77000,98000,-21000,Anomaly,-0.013264245970764033,7.0,High volatility in account balances over time
+Campbell-Clark,917,1465,COMMERCIAL LOANS,DEFERRED COSTS,27000,23000,4000,Anomaly,-0.036022438411116076,1.0,Inconsistent variations in outstanding balances
+Harris-Walters,807,8307,RETAIL LOANS,DEFERRED COSTS,32000,32000,0,Anomaly,-0.02029751115178202,1.0,Inconsistent variations in outstanding balances
+Davis Group,313,7389,RETAIL LOANS,INTEREST RECEIVABLE,55000,55000,0,Anomaly,-0.03522045039706134,1.0,Inconsistent variations in outstanding balances

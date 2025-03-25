@@ -1,11 +1,9 @@
 
 import React, { useEffect, useState } from 'react';
-import { Brain, RefreshCw } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Brain } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import InsightItem from './InsightItem';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { toast } from 'sonner';
 import { useAnomalyContext } from '@/context/AnomalyContext';
 
 interface InsightsListProps {
@@ -18,7 +16,6 @@ interface InsightsListProps {
   }>;
   selectedInsightId: number | null;
   onSelectInsight: (insight: any) => void;
-  onGenerateMore: () => void;
   loading: boolean;
   totalAnomalies?: number;
 }
@@ -27,7 +24,6 @@ const InsightsList: React.FC<InsightsListProps> = ({
   insights,
   selectedInsightId,
   onSelectInsight,
-  onGenerateMore,
   loading,
   totalAnomalies = 0
 }) => {
@@ -64,17 +60,6 @@ const InsightsList: React.FC<InsightsListProps> = ({
       setRenderKey(prev => prev + 1);
     }
   }, [insights, selectedInsightId, loading, totalAnomalies, anomalyStats]);
-  
-  // Handle generate more with explicit feedback
-  const handleGenerateMore = () => {
-    onGenerateMore();
-    toast.info('Generating new insights...');
-    
-    // Force re-render after a delay
-    setTimeout(() => {
-      setRenderKey(prev => prev + 1);
-    }, 500);
-  };
 
   return (
     <Card className="glass-card h-full" key={`insights-list-card-${renderKey}`}>
@@ -86,7 +71,7 @@ const InsightsList: React.FC<InsightsListProps> = ({
         <CardDescription>
           {localInsights.length > 0 
             ? `Showing ${localInsights.length} insights with ${localTotalAnomalies} total anomalies`
-            : 'No insights available yet - generate some to get started'}
+            : 'No insights available yet'}
         </CardDescription>
       </CardHeader>
       <CardContent className="p-0">
@@ -103,32 +88,13 @@ const InsightsList: React.FC<InsightsListProps> = ({
               ))
             ) : (
               <div className="text-center py-8 text-muted-foreground">
-                No insights available. Click the button below to generate insights.
+                No insights available. Use the "Generate AI Insights" button from the anomaly detection section.
               </div>
             )}
           </div>
         </ScrollArea>
       </CardContent>
-      <CardFooter className="flex justify-center pt-4">
-        <Button 
-          variant="outline" 
-          onClick={handleGenerateMore}
-          disabled={loading}
-          className="w-full"
-        >
-          {loading ? (
-            <>
-              <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-              Generating Insights...
-            </>
-          ) : (
-            <>
-              <RefreshCw className="h-4 w-4 mr-2" />
-              {localInsights.length > 0 ? 'Generate More Insights' : 'Generate Insights'}
-            </>
-          )}
-        </Button>
-      </CardFooter>
+      {/* Card footer with generate more button has been removed */}
     </Card>
   );
 };

@@ -1,4 +1,5 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, Download, Sparkles, Brain, RefreshCw } from 'lucide-react';
 import { DynamicColumnData } from '@/lib/csv-parser';
@@ -7,6 +8,7 @@ import { Progress } from '@/components/ui/progress';
 import { AnomalyItem } from '@/types/anomaly';
 import { toast } from 'sonner';
 import { useAnomalyContext } from '@/context/AnomalyContext';
+import ApiKeyDialog from '@/components/anomaly/ApiKeyDialog';
 
 interface AnomalyDetectionButtonProps {
   onAnomalyDataReceived?: (data: DynamicColumnData[], headers: string[]) => void;
@@ -21,6 +23,10 @@ const AnomalyDetectionButton: React.FC<AnomalyDetectionButtonProps> = ({
 }) => {
   // Use context instead of local state
   const { updateAnomalyStats, refreshStats, anomalyStats } = useAnomalyContext();
+  
+  // Add state for API key dialog
+  const [apiKeyDialogOpen, setApiKeyDialogOpen] = useState(false);
+  const [apiKey, setApiKey] = useState<string | null>(null);
   
   // Define handler that will update context and call the original callback
   const handleAnomalyStatsChange = (count: number, impact: number) => {
@@ -47,7 +53,8 @@ const AnomalyDetectionButton: React.FC<AnomalyDetectionButtonProps> = ({
   } = useAnomalyDetection({ 
     onAnomalyDataReceived,
     onAnomalyInsightsReceived,
-    onAnomalyStatsChange: handleAnomalyStatsChange
+    onAnomalyStatsChange: handleAnomalyStatsChange,
+    apiKey
   });
 
   const handleUpdateStats = () => {
@@ -64,8 +71,18 @@ const AnomalyDetectionButton: React.FC<AnomalyDetectionButtonProps> = ({
     toast.success(`Updated stats: ${totalAnomaliesCount} anomalies, impact of $${Math.abs(totalImpactValue).toLocaleString()}`);
   };
 
-  const handleGenerateInsights = () => {
-    generateInsights();
+  const handleGenerateInsightsClick = () => {
+    // Open the API key dialog instead of directly generating insights
+    setApiKeyDialogOpen(true);
+  };
+
+  const handleApiKeySubmit = (key: string) => {
+    setApiKey(key);
+    toast.info('API Key received, generating insights...');
+    
+    // Now generate insights with the API key
+    generateInsights(key);
+    
     setTimeout(() => {
       // After generating insights, refresh stats
       refreshStats();
@@ -81,41 +98,31 @@ const AnomalyDetectionButton: React.FC<AnomalyDetectionButtonProps> = ({
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <Button
-        onClick={detectAnomalies}
-        disabled={isDetecting}
-        size="lg"
-        className="bg-amber-600 hover:bg-amber-700"
-      >
-        {isDetecting ? (
-          <>
-            <LoadingSpinner />
-            Detecting Anomalies...
-          </>
-        ) : (
-          <>
-            <AlertTriangle className="mr-2 h-5 w-5" />
-            Detect Anomalies
-          </>
-        )}
-      </Button>
-      
-      {hasAnomalies && !isDetecting && (
+      {/* Main button row with Detect Anomalies and Generate Insights side by side */}
+      <div className="flex flex-wrap items-center gap-4 justify-center">
         <Button
-          onClick={handleUpdateStats}
-          size="sm"
-          variant="outline"
-          className="text-green-600 border-green-600 hover:bg-green-50 hover:text-green-700"
+          onClick={detectAnomalies}
+          disabled={isDetecting}
+          size="lg"
+          className="bg-amber-600 hover:bg-amber-700"
         >
-          <RefreshCw className="h-4 w-4 mr-2" />
-          Refresh Statistics
+          {isDetecting ? (
+            <>
+              <LoadingSpinner />
+              Detecting Anomalies...
+            </>
+          ) : (
+            <>
+              <AlertTriangle className="mr-2 h-5 w-5" />
+              Detect Anomalies
+            </>
+          )}
         </Button>
-      )}
-      
-      {hasAnomalies && !isDetecting && (
+        
+        {/* Always show the Generate Insights button, but disable it if no anomalies or if detecting */}
         <Button
-          onClick={handleGenerateInsights}
-          disabled={isGeneratingInsights}
+          onClick={handleGenerateInsightsClick}
+          disabled={isGeneratingInsights || !hasAnomalies || isDetecting}
           size="lg"
           variant="outline"
           className="text-blue-600 border-blue-600 hover:bg-blue-50 hover:text-blue-700 dark:text-blue-400 dark:border-blue-400 dark:hover:bg-blue-950 dark:hover:text-blue-300"
@@ -131,6 +138,18 @@ const AnomalyDetectionButton: React.FC<AnomalyDetectionButtonProps> = ({
               Generate AI Insights
             </>
           )}
+        </Button>
+      </div>
+      
+      {hasAnomalies && !isDetecting && (
+        <Button
+          onClick={handleUpdateStats}
+          size="sm"
+          variant="outline"
+          className="text-green-600 border-green-600 hover:bg-green-50 hover:text-green-700"
+        >
+          <RefreshCw className="h-4 w-4 mr-2" />
+          Refresh Statistics
         </Button>
       )}
       
@@ -157,13 +176,15 @@ const AnomalyDetectionButton: React.FC<AnomalyDetectionButtonProps> = ({
           Download Results
         </Button>
       )}
+      
+      {/* API Key Dialog */}
+      <ApiKeyDialog 
+        open={apiKeyDialogOpen} 
+        onOpenChange={setApiKeyDialogOpen} 
+        onSubmit={handleApiKeySubmit} 
+      />
     </div>
   );
 };
-
-// Include the original onAnomalyStatsChange prop for backward compatibility
-interface AnomalyDetectionButtonProps {
-  onAnomalyStatsChange?: (count: number, impact: number) => void;
-}
 
 export default AnomalyDetectionButton;

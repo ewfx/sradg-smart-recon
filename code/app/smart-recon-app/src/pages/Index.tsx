@@ -38,7 +38,6 @@ const Index = () => {
     setTableHeaders(headers);
     setShowTable(true);
     
-    // Scroll to the data table section
     setTimeout(() => {
       document.getElementById('data')?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
@@ -48,14 +47,11 @@ const Index = () => {
     console.log('Index - Anomaly data received:', data.length);
     setAnomalyData(data);
     
-    // Merge new headers with existing ones
     const allHeaders = [...new Set([...tableHeaders, ...headers])];
     setTableHeaders(allHeaders);
     
-    // If we have anomaly data but not showing tables yet, show them
     if (data.length > 0 && !showTable) {
       setShowTable(true);
-      // Scroll to the data table section
       setTimeout(() => {
         document.getElementById('data')?.scrollIntoView({ behavior: 'smooth' });
       }, 100);
@@ -65,10 +61,8 @@ const Index = () => {
   const handleAnomalyStatsChange = useCallback((count: number, impact: number) => {
     console.log('Index - Anomaly stats changed:', { count, impact });
     
-    // Update global context
     updateAnomalyStats(count, impact);
     
-    // Display toast notification for first detection
     if (count > 0) {
       toast.success(`Detected ${count} anomalies with total impact of $${Math.abs(impact).toLocaleString()}`);
     }
@@ -77,11 +71,9 @@ const Index = () => {
   const handleAnomalyInsightsReceived = useCallback((anomalies: AnomalyItem[]) => {
     console.log('Index - Insights received:', anomalies.length);
     
-    // Display toast notification about insights
     if (anomalies.length > 0) {
       toast.success(`Generated ${anomalies.length} AI insights from anomaly data`);
       
-      // Scroll to insights section
       setTimeout(() => {
         document.getElementById('insights')?.scrollIntoView({ behavior: 'smooth' });
       }, 300);
@@ -92,7 +84,6 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900">
       <Navbar />
       
-      {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 relative">
         <div className={`max-w-6xl mx-auto text-center transition-all duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0 transform translate-y-10'}`}>
           <div className="inline-block mb-4">
@@ -108,7 +99,10 @@ const Index = () => {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button size="lg" className="px-8 py-6 rounded-full text-lg" onClick={() => document.getElementById('upload')?.scrollIntoView({ behavior: 'smooth' })}>
-              Get Started
+              GL vs iHub Reconciliation
+            </Button>
+            <Button size="lg" variant="secondary" className="px-8 py-6 rounded-full text-lg" asChild>
+              <Link to="/split-file-analysis">Catalyst vs Impact Reconciliation</Link>
             </Button>
             <Button size="lg" variant="outline" className="px-8 py-6 rounded-full text-lg" asChild>
               <Link to="/learn-more">Learn More</Link>
@@ -123,14 +117,12 @@ const Index = () => {
         </div>
       </section>
       
-      {/* File Upload Section */}
       <section id="upload" className="py-20 px-4 bg-white dark:bg-gray-900">
         <div className="max-w-6xl mx-auto animate-fade-in-up">
           <FileUploadSection onDataProcessed={handleDataProcessed} />
         </div>
       </section>
       
-      {/* Data Table Section */}
       <section id="data" className="py-20 px-4 bg-gray-50 dark:bg-gray-900/50">
         <div className="max-w-6xl mx-auto animate-fade-in-up">
           {showTable || anomalyData.length > 0 ? (
@@ -209,21 +201,18 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Anomaly Detection Section */}
       <section id="anomalies" className="py-20 px-4 bg-white dark:bg-gray-900">
         <div className="max-w-6xl mx-auto animate-fade-in-up">
           <AnomalySection />
         </div>
       </section>
       
-      {/* AI Insights Section */}
       <section id="insights" className="py-20 px-4 bg-gray-50 dark:bg-gray-900/50">
         <div className="max-w-6xl mx-auto animate-fade-in-up">
           <InsightsPanel />
         </div>
       </section>
       
-      {/* Footer */}
       <footer className="py-12 px-4 bg-gray-900 text-white">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center">
@@ -241,7 +230,7 @@ const Index = () => {
             <div className="flex space-x-8">
               <a href="#" className="text-gray-300 hover:text-white transition-colors">About</a>
               <a href="#" className="text-gray-300 hover:text-white transition-colors">Features</a>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">Pricing</a>
+              <Link to="/split-file-analysis" className="text-gray-300 hover:text-white transition-colors">Split File Analysis</Link>
               <a href="#" className="text-gray-300 hover:text-white transition-colors">Contact</a>
             </div>
           </div>
