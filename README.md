@@ -23,7 +23,7 @@ This project aims to solve the problem of manual reconciliation that is slow, er
 
 ## 🎥 Demo
 
-🔗 [Live Demo](#) *(add if hosted)*  
+🔗 [Live Demo](#) Kept under artifacts/demo
 🎩 [Video Demo](#) *(add if recorded)*  
 🖼️ Screenshots:
 
@@ -105,8 +105,8 @@ The traditional approach to financial reconciliation often involves manual sprea
    npm install 
    npm run dev
  
-6. Visit the API docs at  
-   📍 `http://127.0.0.1:8000/docs` for Swagger UI
+6. Notes 
+   📍 Please upload file as suggested in demo video
 
 ---
 
