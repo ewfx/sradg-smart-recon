@@ -30,11 +30,9 @@ import os
 def test_upload_reconciliation():
     # Base URL of your FastAPI server (adjust if needed)
     url = "http://127.0.0.1:8000/upload-reconciliation"
-
-
     
     # Path to your sample reconciliation CSV file (ensure this file exists)
-    file_path = os.path.join("data", "CatalystReconciledData.csv")
+    file_path = os.path.join("data", "catalyst_reconcillation_data_1.csv")
     
     if not os.path.exists(file_path):
         print(f"File {file_path} does not exist. Please ensure the file is available.")

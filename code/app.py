@@ -18,6 +18,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
+
 router = APIRouter()
 
 app = FastAPI(title="Reconciliation Data API with Insights")
@@ -25,8 +26,8 @@ app.include_router(router, prefix="/recon")
 
 
 app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # You can restrict this to specific domains later
+     CORSMiddleware,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -34,6 +35,15 @@ app.add_middleware(
 
 # Ensure the data directory exists
 os.makedirs(DATA_DIR, exist_ok=True)
+
+# Util to auto-detect header row
+def load_csv_with_auto_header(path):
+    preview = pd.read_csv(path, header=None, nrows=5)
+    for i in range(len(preview)):
+        row = preview.iloc[i]
+        if "MatchStatus" in row.values and "TRADEID" in row.values:
+            return pd.read_csv(path, skiprows=i)
+    raise ValueError("Could not detect proper header row with expected columns like 'MatchStatus' or 'TRADEID'.")
 
 @app.post("/upload/historical")
 async def upload_historical(file: UploadFile = File(...)):
@@ -125,33 +135,28 @@ async def upload_reconciliation_file(file: UploadFile = File(...)):
     try:
         if not file.filename.endswith(".csv"):
             raise HTTPException(status_code=400, detail="Only CSV files are supported.")
-        
-        # Save the uploaded file with its original filename
+
         raw_path = os.path.join(DATA_DIR, file.filename)
         with open(raw_path, "wb") as f:
             f.write(await file.read())
-        
-        # Load the CSV file
-        df = pd.read_csv(raw_path)
-        
-        # Calculate total issue count and statistics based on MatchStatus column
+
+        df = load_csv_with_auto_header(raw_path)
+
         total_issue_count = len(df)
         match_status_stats = df["MatchStatus"].value_counts().to_dict()
-        
-        # Split columns into common, Catalyst, and Impact columns
+
         catalyst_cols = [col for col in df.columns if col.strip().startswith("Catalyst")]
         impact_cols = [col for col in df.columns if col.strip().startswith("Impact")]
         common_cols = [col for col in df.columns if not col.strip().startswith("Catalyst") and not col.strip().startswith("Impact")]
-        
+
         catalyst_df = df[common_cols + catalyst_cols].copy()
         impact_df = df[common_cols + impact_cols].copy()
-        
-        # Save the split files to the data directory
+
         catalyst_path = os.path.join(DATA_DIR, "catalyst_data.csv")
         impact_path = os.path.join(DATA_DIR, "impact_data.csv")
         catalyst_df.to_csv(catalyst_path, index=False)
         impact_df.to_csv(impact_path, index=False)
-        
+
         return JSONResponse(content={
             "message": "Reconciliation file processed and split successfully.",
             "catalyst_data": catalyst_df.fillna("").to_dict(orient="records"),
@@ -161,9 +166,8 @@ async def upload_reconciliation_file(file: UploadFile = File(...)):
             "total_issue_count": total_issue_count,
             "match_status_stats": match_status_stats
         })
-        
+
     except Exception as e:
-        import traceback
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -245,7 +249,10 @@ def get_rule_suggestions(filename: str = Query(..., description="Name of the CSV
             "data": suggestions
         })
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
+
       
 @app.get("/")
 async def root():
