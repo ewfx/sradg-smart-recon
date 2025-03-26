@@ -5,8 +5,6 @@ import os
 import numpy as np
 from src.config import ANOMALY_BUCKETS, DATA_DIR
 
-# Load your OpenAI API key from environment variable
-#openai.api_key = "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"
 
 def convert_to_builtin(obj):
     if isinstance(obj, (np.integer,)):
