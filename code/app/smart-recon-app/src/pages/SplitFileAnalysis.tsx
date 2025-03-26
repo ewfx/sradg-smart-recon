@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
@@ -39,6 +38,19 @@ const SplitFileAnalysis = () => {
   const [reconciliationStats, setReconciliationStats] = useState<ReconciliationStats | null>(null);
   const { updateAnomalyStats } = useAnomalyContext();
 
+  const handleStatsUpdate = useCallback((updatedStats: ReconciliationStats) => {
+    setReconciliationStats(updatedStats);
+    
+    const anomalyCount = file1Data.length;
+    const impact = file1Data.reduce((sum, item) => {
+      const impactValue = typeof item.impact === 'number' ? item.impact : 
+                          typeof item.impact === 'string' ? parseFloat(item.impact) : 0;
+      return sum + (isNaN(impactValue) ? 0 : impactValue);
+    }, 0);
+    
+    updateAnomalyStats(anomalyCount, impact);
+  }, [file1Data, updateAnomalyStats]);
+
   const handleFileSplitComplete = (
     originalData: DynamicColumnData[],
     file1Data: DynamicColumnData[],
@@ -72,17 +84,13 @@ const SplitFileAnalysis = () => {
     }, 100);
   };
   
-  // Handle updates when an issue is fixed
   const handleIssueFixed = useCallback((tradeId: number, matchStatus: string, updatedData: any) => {
-    // Find the trade in the original data to remove
     const tradeIdStr = tradeId.toString();
     
-    // Remove the fixed issue from suggestions
     setRuleSuggestions(prev => 
       prev.filter(suggestion => suggestion.TRADEID?.toString() !== tradeIdStr)
     );
     
-    // Remove the trade from original data
     setOriginalFileData(prev => 
       prev.filter(item => {
         const itemTradeId = item.TRADEID || item.TradeID || item.tradeid || item.id;
@@ -90,25 +98,20 @@ const SplitFileAnalysis = () => {
       })
     );
     
-    // Update the appropriate dataset based on source
     const source = updatedData.source;
     
     if (source === 'catalyst') {
-      // Update the catalyst data (file1Data)
       setFile1Data(prev => {
-        // Find if the trade already exists in the catalyst data
         const tradeIndex = prev.findIndex(item => {
           const itemTradeId = item.TRADEID || item.TradeID || item.tradeid || item.id;
           return itemTradeId?.toString() === tradeIdStr;
         });
         
         if (tradeIndex >= 0) {
-          // Update the existing trade
           const newData = [...prev];
           newData[tradeIndex] = { ...newData[tradeIndex], ...updatedData.updateData, status: 'Reconciled' };
           return newData;
         } else {
-          // Add as a new entry if it wasn't found
           const newEntry: DynamicColumnData = {
             id: `catalyst-${tradeId}`,
             TRADEID: tradeId,
@@ -121,21 +124,17 @@ const SplitFileAnalysis = () => {
         }
       });
     } else if (source === 'impact') {
-      // Update the impact data (file2Data)
       setFile2Data(prev => {
-        // Find if the trade already exists in the impact data
         const tradeIndex = prev.findIndex(item => {
           const itemTradeId = item.TRADEID || item.TradeID || item.tradeid || item.id;
           return itemTradeId?.toString() === tradeIdStr;
         });
         
         if (tradeIndex >= 0) {
-          // Update the existing trade
           const newData = [...prev];
           newData[tradeIndex] = { ...newData[tradeIndex], ...updatedData.updateData, status: 'Reconciled' };
           return newData;
         } else {
-          // Add as a new entry if it wasn't found
           const newEntry: DynamicColumnData = {
             id: `impact-${tradeId}`,
             TRADEID: tradeId,
@@ -147,23 +146,6 @@ const SplitFileAnalysis = () => {
           return [...prev, newEntry];
         }
       });
-    }
-    
-    // Update reconciliation stats if they exist
-    if (reconciliationStats) {
-      const statsUpdate = { ...reconciliationStats };
-      
-      // Decrease total issue count
-      if (statsUpdate.total_issue_count && statsUpdate.total_issue_count > 0) {
-        statsUpdate.total_issue_count -= 1;
-      }
-      
-      // Update match status stats
-      if (matchStatus && statsUpdate.match_status_stats && statsUpdate.match_status_stats[matchStatus]) {
-        statsUpdate.match_status_stats[matchStatus] -= 1;
-      }
-      
-      setReconciliationStats(statsUpdate);
     }
     
     toast.success(`Trade ID: ${tradeId} has been updated and removed from the issues list.`);
@@ -179,7 +161,6 @@ const SplitFileAnalysis = () => {
     const toastId = toast.loading('Generating AI recommendations...');
 
     try {
-      // Remove the 'recon/' prefix from the API endpoint
       const response = await fetch(`${API_BASE_URL}/rule-suggestions?filename=${encodeURIComponent(uploadedFilename)}`);
       
       if (!response.ok) {
@@ -302,6 +283,8 @@ const SplitFileAnalysis = () => {
                 suggestions={ruleSuggestions} 
                 isLoading={isLoadingSuggestions}
                 onIssueFixed={handleIssueFixed}
+                reconciliationStats={reconciliationStats}
+                onStatsUpdate={handleStatsUpdate}
               />
             </div>
           </section>

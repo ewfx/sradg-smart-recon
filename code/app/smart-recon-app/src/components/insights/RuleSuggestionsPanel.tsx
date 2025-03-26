@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -15,6 +14,7 @@ import {
   PaginationPrevious
 } from '@/components/ui/pagination';
 import EmailNotificationDialog from './EmailNotificationDialog';
+import { ReconciliationStats } from './ReconciliationStatsCard';
 
 interface RuleSuggestion {
   id?: number;
@@ -32,12 +32,16 @@ interface RuleSuggestionsPanelProps {
   suggestions: RuleSuggestion[];
   isLoading: boolean;
   onIssueFixed?: (tradeId: number, matchStatus: string, updatedData: any) => void;
+  onStatsUpdate?: (stats: ReconciliationStats) => void;
+  reconciliationStats?: ReconciliationStats | null;
 }
 
 const RuleSuggestionsPanelProps: React.FC<RuleSuggestionsPanelProps> = ({ 
   suggestions, 
   isLoading,
-  onIssueFixed 
+  onIssueFixed,
+  onStatsUpdate,
+  reconciliationStats
 }) => {
   const [processingTrades, setProcessingTrades] = useState<Record<string, boolean>>({});
   const [currentPage, setCurrentPage] = useState(1);
@@ -64,15 +68,12 @@ const RuleSuggestionsPanelProps: React.FC<RuleSuggestionsPanelProps> = ({
     setProcessingTrades(prev => ({ ...prev, [tradeKey]: true }));
     
     try {
-      // Determine source based on match status
-      let source = 'catalyst'; // Default to catalyst
+      let source = 'catalyst';
       
       if (matchStatus?.toLowerCase().includes('impact_only')) {
         source = 'impact';
       }
       
-      // Generate sample data to update based on matchStatus
-      // In a real application, this data would come from user input or be determined by the system
       const updateData: Record<string, any> = {};
       
       if (matchStatus?.toLowerCase().includes('price')) {
@@ -80,12 +81,10 @@ const RuleSuggestionsPanelProps: React.FC<RuleSuggestionsPanelProps> = ({
       } else if (matchStatus?.toLowerCase().includes('quantity')) {
         updateData[`${source.charAt(0).toUpperCase() + source.slice(1)}_QUANTITY`] = Math.floor(Math.random() * 1000);
       } else {
-        // Generic update data for other types of mismatches
         updateData[`${source.charAt(0).toUpperCase() + source.slice(1)}_SETTLEDATE`] = "03-07-2025";
         updateData[`${source.charAt(0).toUpperCase() + source.slice(1)}_PRICE`] = (Math.random() * 100 + 50).toFixed(2);
       }
       
-      // Call the API with the correct endpoint and data format
       const response = await fetch(`${API_BASE_URL}/update-row?source=${source}&trade_id=${tradeId}`, {
         method: 'POST',
         headers: {
@@ -101,7 +100,20 @@ const RuleSuggestionsPanelProps: React.FC<RuleSuggestionsPanelProps> = ({
       const result = await response.json();
       toast.success(result.message || `Successfully updated Trade ID: ${tradeId}`);
       
-      // Call the callback with the updated data
+      if (reconciliationStats && onStatsUpdate) {
+        const updatedStats = { ...reconciliationStats };
+        
+        if (updatedStats.total_issue_count > 0) {
+          updatedStats.total_issue_count -= 1;
+        }
+        
+        if (matchStatus && updatedStats.match_status_stats && updatedStats.match_status_stats[matchStatus]) {
+          updatedStats.match_status_stats[matchStatus] -= 1;
+        }
+        
+        onStatsUpdate(updatedStats);
+      }
+      
       if (onIssueFixed) {
         onIssueFixed(tradeId, matchStatus || '', {
           tradeId,
@@ -114,18 +126,29 @@ const RuleSuggestionsPanelProps: React.FC<RuleSuggestionsPanelProps> = ({
       console.error('Error fixing issue:', error);
       toast.error(`Failed to fix issue: ${error instanceof Error ? error.message : 'Unknown error'}`);
       
-      // For demo purposes, show success even when API fails and create mock data to update UI
       setTimeout(() => {
         toast.success(`Trade ID: ${tradeId} updated successfully (DEMO)`);
         
-        // Create mock update data
         const mockSource = matchStatus?.toLowerCase().includes('impact_only') ? 'impact' : 'catalyst';
         const mockUpdateData: Record<string, any> = {
           [`${mockSource.charAt(0).toUpperCase() + mockSource.slice(1)}_PRICE`]: (Math.random() * 100 + 50).toFixed(2),
           [`${mockSource.charAt(0).toUpperCase() + mockSource.slice(1)}_QUANTITY`]: Math.floor(Math.random() * 1000)
         };
         
-        // Call the callback with the mock updated data
+        if (reconciliationStats && onStatsUpdate) {
+          const updatedStats = { ...reconciliationStats };
+          
+          if (updatedStats.total_issue_count > 0) {
+            updatedStats.total_issue_count -= 1;
+          }
+          
+          if (matchStatus && updatedStats.match_status_stats && updatedStats.match_status_stats[matchStatus]) {
+            updatedStats.match_status_stats[matchStatus] -= 1;
+          }
+          
+          onStatsUpdate(updatedStats);
+        }
+        
         if (onIssueFixed) {
           onIssueFixed(tradeId, matchStatus || '', {
             tradeId,
@@ -383,7 +406,6 @@ const RuleSuggestionsPanelProps: React.FC<RuleSuggestionsPanelProps> = ({
         )}
       </CardContent>
 
-      {/* Email notification dialog */}
       {selectedTrade && (
         <EmailNotificationDialog
           open={emailDialogOpen}
